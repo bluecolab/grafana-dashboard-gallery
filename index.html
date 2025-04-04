@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=2000, initial-scale=2">
+    <title>2x2 Grid of Iframes</title>
+
+    <head>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    </head>
+
+    <style>
+        /* Set up the body to take full height of the screen */
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Roboto', sans-serif;
+
+        }
+
+        /* Container for the grid */
+        .iframe-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            /* Creates 2 equal columns */
+            grid-template-rows: repeat(2, 1fr);
+            /* Creates 2 equal rows */
+            width: 100vw;
+            height: 100vh;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            transform-origin: 0 0;
+            /* Keep the scaling anchored at the top-left corner */
+        }
+
+        label,
+        select,
+        option {
+            font-size: 20pt !important;
+            color: #ababb9;
+        }
+
+        select,
+        option {
+            background-color: #181b1f;
+
+        }
+
+        div {
+            background-color: #111217;
+        }
+
+        /* The Modal (background) */
+        .modal {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            /* Stay in place */
+            z-index: 1;
+            /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            overflow: auto;
+            /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0);
+            /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.4);
+            /* Black w/ opacity */
+        }
+
+        /* Modal Content/Box */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            /* Could be more or less, depending on screen size */
+        }
+
+        /* The Close Button */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+
+html > html { zoom: 0.75; -moz-transform: scale(0.75); -moz-transform-origin: 0 0; }
+
+    </style>
+</head>
+
+<body class="zoom">
+
+
+    <div class="iframe-container">
+        <!-- Trigger/Open The Modal -->
+
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <p>Some text in the Modal..</p>
+            </div>
+
+        </div>
+
+
+        <iframe id="iframe1"
+            src="https://colabprod01.pace.edu/grafana/public-dashboards/139d29dc18204fa28d1b39ef672c45f5?orgId=1&refresh=1m&from=now-2d&to=now"
+            title="Iframe 1"></iframe>
+        <div>
+            
+            <label for="location">Choose a location:</label>
+
+            <select name="location" id="location-select">
+                <option value="poughkeepsie">Poughkeepsie</option>
+                <option value="BotanicalGarden">Botanical Garden</option>
+                <option value="WestPoint">West Point</option>
+            </select>
+
+            <iframe id="iframe2"
+                src="https://colabprod01.pace.edu/grafana/public-dashboards/fa0d20863be848119bc21d7807f20b56?orgId=1&from=now-2d&to=now"
+                title="Iframe 2"></iframe>
+        </div>
+        <iframe id="iframe3"
+            src="https://colabprod01.pace.edu/grafana/public-dashboards/28b52eaadf8041d490b3bca36f16101c?orgId=1&refresh=15m"
+            title="Iframe 3"></iframe>
+        <iframe id="iframe4"
+            src="https://colabprod01.pace.edu/grafana/public-dashboards/84619475e51f410ab57a389593c0593a?orgId=1&refresh=15m"
+            title="Iframe 4"></iframe>
+    </div>
+
+    <script>
+        let mySelect = document.getElementById('location-select');
+        let iframe2 = document.getElementById('iframe2');
+        mySelect.onchange = (event) => {
+            let inputText = event.target.value;
+
+            switch (inputText) {
+                case 'poughkeepsie':
+                    iframe2.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/fa0d20863be848119bc21d7807f20b56?orgId=1&from=now-2d&to=now';
+                    break;
+                case 'WestPoint':
+                    iframe2.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/f4c8ba39084a4169b9b7cc053dd4da8d?orgId=1&from=now-2d&to=now'
+                    break;
+                case 'BotanicalGarden':
+                    iframe2.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/9f36097dcd344550ac27631d91ad7994?orgId=1&from=now-2d&to=now';
+                    break;
+            }
+            console.log(inputText);
+        }
+
+        // Get the modal
+        var modal = document.getElementById("myModal");
+
+        // Get the button that opens the modal
+        var btn = document.getElementById("myBtn");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on the button, open the modal
+        btn.onclick = function () {
+            modal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+
+</body>
+
+</html>
