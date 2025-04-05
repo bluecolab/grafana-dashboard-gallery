@@ -21,7 +21,6 @@
             justify-content: center;
             align-items: center;
             font-family: 'Roboto', sans-serif;
-
         }
 
         /* Container for the grid */
@@ -53,7 +52,6 @@
         select,
         option {
             background-color: #181b1f;
-
         }
 
         div {
@@ -65,40 +63,34 @@
             display: none;
             /* Hidden by default */
             position: fixed;
-            /* Stay in place */
             z-index: 1;
-            /* Sit on top */
             left: 0;
             top: 0;
             width: 100%;
-            /* Full width */
             height: 100%;
-            /* Full height */
-            overflow: auto;
-            /* Enable scroll if needed */
-            background-color: rgb(0, 0, 0);
-            /* Fallback color */
             background-color: rgba(0, 0, 0, 0.4);
             /* Black w/ opacity */
         }
 
         /* Modal Content/Box */
         .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto;
-            /* 15% from the top and centered */
+            position: absolute;
+            background-color: #111217;
             padding: 20px;
             border: 1px solid #888;
             width: 95%;
-            height: 95%;
-            /* Could be more or less, depending on screen size */
+            /* Adjust width as needed */
+            height: 90%;
+            top: 5%;
+            left: 2%;
+            /* Optional: Max width to avoid content stretching too much on large screens */
         }
 
         /* The Close Button */
         .close {
             color: #aaa;
             float: right;
-            font-size: 28px;
+            font-size: 50px;
             font-weight: bold;
         }
 
@@ -108,69 +100,95 @@
             text-decoration: none;
             cursor: pointer;
         }
+
+        #iusedtogothere {
+            width: 100%;
+            height: 150%;
+            zoom: 1.75;
+        }
+
+        /* Add styles for buttons */
+        button {
+            background-color: #4CAF50;
+            /* Green */
+            color: white;
+            padding: 5px;
+            text-align: center;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 
-<body >
-
+<body>
 
     <div class="iframe-container">
-        <!-- Trigger/Open The Modal -->
-
-        <!-- The Modal -->
-        <div id="myModal" class="modal">
-
-            <!-- Modal content -->
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <p>Some text in the Modal..</p>
-            </div>
-
+        <!-- Trigger/Open The Modal for iframe 1 -->
+        <div>
+            <label for="errror">Choose a place:</label>
+            <select name="error" id="errror">
+                <option value="NA">NA</option>
+            </select>
+            <button class="open-modal" data-modal="1">Open Modal 1</button>
+            <iframe id="iframe1"
+                src="https://colabprod01.pace.edu/grafana/public-dashboards/139d29dc18204fa28d1b39ef672c45f5?orgId=1&refresh=1m&from=now-2d&to=now"
+                title="Iframe 1"></iframe>
         </div>
 
-
-        <iframe id="iframe1"
-            src="https://colabprod01.pace.edu/grafana/public-dashboards/139d29dc18204fa28d1b39ef672c45f5?orgId=1&refresh=1m&from=now-2d&to=now"
-            title="Iframe 1"></iframe>
+        <!-- Trigger/Open The Modal for iframe 2 -->
         <div>
-
-            <label for="location">Choose a location:</label>
-
-            <select name="location" id="location-select">
+            <label for="location-select">Choose a location:</label>
+            <select name="location-select" id="location-select">
                 <option value="poughkeepsie">Poughkeepsie</option>
                 <option value="BotanicalGarden">Botanical Garden</option>
                 <option value="WestPoint">West Point</option>
             </select>
-
+            <button class="open-modal" data-modal="2">Open Modal 2</button>
             <iframe id="iframe2"
                 src="https://colabprod01.pace.edu/grafana/public-dashboards/fa0d20863be848119bc21d7807f20b56?orgId=1&from=now-2d&to=now"
                 title="Iframe 2"></iframe>
         </div>
+
+        <!-- Trigger/Open The Modal for iframe 3 -->
         <div>
             <label for="sondWQI">Choose a sond:</label>
-
             <select name="sondWQI" id="sondWQI">
                 <option value="Ada">Ada</option>
                 <option value="Alan">Alan</option>
             </select>
-
+            <button class="open-modal" data-modal="3">Open Modal 3</button>
             <iframe id="iframe3"
                 src="https://colabprod01.pace.edu/grafana/public-dashboards/28b52eaadf8041d490b3bca36f16101c?orgId=1&refresh=15m"
                 title="Iframe 3"></iframe>
         </div>
+
+        <!-- Trigger/Open The Modal for iframe 4 -->
         <div>
             <label for="sondWM">Choose a sond:</label>
-
             <select name="sondWM" id="sondWM">
                 <option value="Ada">Ada</option>
                 <option value="Alan">Alan</option>
             </select>
-
-            <button id="myBtn">Click</button>
-
+            <button class="open-modal" data-modal="4">Open Modal 4</button>
             <iframe id="iframe4"
                 src="https://colabprod01.pace.edu/grafana/public-dashboards/84619475e51f410ab57a389593c0593a?orgId=1&refresh=15m"
                 title="Iframe 4"></iframe>
+        </div>
+    </div>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <iframe id="iusedtogothere"
+                src="https://colabprod01.pace.edu/grafana/public-dashboards/139d29dc18204fa28d1b39ef672c45f5?orgId=1&refresh=1m&from=now-2d&to=now"
+                title="Iframe 1"></iframe>
         </div>
     </div>
 
@@ -200,10 +218,10 @@
 
             switch (inputText) {
                 case 'Ada':
-                iframe3.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/28b52eaadf8041d490b3bca36f16101c?orgId=1&refresh=15m';
+                    iframe3.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/28b52eaadf8041d490b3bca36f16101c?orgId=1&refresh=15m';
                     break;
                 case 'Alan':
-                iframe3.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/841327a5d5fa493b8f14d638ffe2041e?orgId=1&refresh=15m'
+                    iframe3.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/841327a5d5fa493b8f14d638ffe2041e?orgId=1&refresh=15m'
                     break;
             }
         }
@@ -216,40 +234,86 @@
 
             switch (inputText) {
                 case 'Ada':
-                iframe4.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/84619475e51f410ab57a389593c0593a?orgId=1&refresh=15m';
+                    iframe4.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/84619475e51f410ab57a389593c0593a?orgId=1&refresh=15m';
                     break;
                 case 'Alan':
-                iframe4.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/35f205ad7f9d458e949406a5612d9f04?orgId=1&refresh=15m'
+                    iframe4.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/35f205ad7f9d458e949406a5612d9f04?orgId=1&refresh=15m'
                     break;
             }
         }
 
 
+        let iframeModel = document.getElementById("iusedtogothere");
 
+        // Handle opening the modal for any button
+        document.querySelectorAll('.open-modal').forEach(button => {
+            button.addEventListener('click', function () {
+                let modal = document.getElementById("myModal");
+                const modalNumber = this.getAttribute('data-modal');
 
-        // Get the modal
-        var modal = document.getElementById("myModal");
+                // Update iframeModel based on which button was clicked
+                switch (modalNumber) {
+                    case '1':
+                        iframeModel.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/139d29dc18204fa28d1b39ef672c45f5?orgId=1&refresh=1m&from=now-2d&to=now';
+                        break;
+                    case '2':
+                        // iframeModel.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/fa0d20863be848119bc21d7807f20b56?orgId=1&from=now-2d&to=now';
+                        let inputText2 = mySelect2.value;
 
-        // Get the button that opens the modal
-        var btn = document.getElementById("myBtn");
+                        switch (inputText2) {
+                            case 'poughkeepsie':
+                                iframeModel.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/fa0d20863be848119bc21d7807f20b56?orgId=1&from=now-2d&to=now';
+                                break;
+                            case 'WestPoint':
+                                iframeModel.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/f4c8ba39084a4169b9b7cc053dd4da8d?orgId=1&from=now-2d&to=now'
+                                break;
+                            case 'BotanicalGarden':
+                                iframeModel.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/9f36097dcd344550ac27631d91ad7994?orgId=1&from=now-2d&to=now';
+                                break;
+                        }
+                        break;
+                    case '3':
+                        let inputText3 = mySelect3.value;
 
-        // Get the <span> element that closes the modal
-        var span = document.getElementsByClassName("close")[0];
+                        switch (inputText3) {
+                            case 'Ada':
+                                iframeModel.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/28b52eaadf8041d490b3bca36f16101c?orgId=1&refresh=15m';
+                                break;
+                            case 'Alan':
+                                iframeModel.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/841327a5d5fa493b8f14d638ffe2041e?orgId=1&refresh=15m'
+                                break;
+                        }
 
-        // When the user clicks on the button, open the modal
-        btn.onclick = function () {
-            modal.style.display = "block";
-        }
+                        break;
+                    case '4':
+                        let inputText4 = mySelect4.value;
+                        switch (inputText4) {
+                            case 'Ada':
+                                iframeModel.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/84619475e51f410ab57a389593c0593a?orgId=1&refresh=15m';
+                                break;
+                            case 'Alan':
+                                iframeModel.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/35f205ad7f9d458e949406a5612d9f04?orgId=1&refresh=15m'
+                                break;
+                        }
+                        break;
+                }
 
-        // When the user clicks on <span> (x), close the modal
-        span.onclick = function () {
-            modal.style.display = "none";
-        }
+                // Open the modal
+                modal.style.display = "flex";
+            });
+        });
 
-        // When the user clicks anywhere outside of the modal, close it
+        // Close the modal when the user clicks on <span> (x)
+        document.querySelector('.close').addEventListener('click', function () {
+            iframeModel.src = '';
+            document.getElementById("myModal").style.display = "none";
+        });
+
+        // Close the modal if clicked outside
         window.onclick = function (event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
+            if (event.target == document.getElementById("myModal")) {
+                iframeModel.src = '';
+                document.getElementById("myModal").style.display = "none";
             }
         }
     </script>
