@@ -80,9 +80,12 @@
             border: 1px solid #888;
             width: 95%;
             /* Adjust width as needed */
-            height: 90%;
+            height: 85%;
             top: 5%;
             left: 2%;
+            overflow-y: scroll;
+            scrollbar-width: none;
+
             /* Optional: Max width to avoid content stretching too much on large screens */
         }
 
@@ -185,14 +188,25 @@
     <div id="myModal" class="modal">
         <!-- Modal content -->
         <div class="modal-content">
+            <label for="dashboard">Choose a dashboard:</label>
+            <select name="dashboard" id="dashboard">
+                <option value="weather">Weather</option>
+                <option value="ada-wqi">Ada WQI</option>
+                <option value="alan-wqi">Alan WQI</option>
+                <option value="ada-wm">Ada Water Monitor</option>
+                <option value="alan-wm">Alan Water Monitor</option>
+                <option value="p-wm">Poughkeepsie Water Monitor</option>
+                <option value="wp-wm">West Point Water Monitor</option>
+                <option value="br-wm">Bronx River Water Monitor</option>
+            </select>
             <span class="close">&times;</span>
-            <iframe id="iusedtogothere"
-                src="https://colabprod01.pace.edu/grafana/public-dashboards/139d29dc18204fa28d1b39ef672c45f5?orgId=1&refresh=1m&from=now-2d&to=now"
-                title="Iframe 1"></iframe>
+
+            <iframe id="iusedtogothere" src="" title="Iframe 1"></iframe>
         </div>
     </div>
 
     <script>
+        let mySelect5 = document.getElementById('dashboard');
         let mySelect2 = document.getElementById('location-select');
         let iframe2 = document.getElementById('iframe2');
         mySelect2.onchange = (event) => {
@@ -200,6 +214,7 @@
 
             switch (inputText) {
                 case 'poughkeepsie':
+                    mySelect5.value = 'p-wm';
                     iframe2.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/fa0d20863be848119bc21d7807f20b56?orgId=1&from=now-2d&to=now';
                     break;
                 case 'WestPoint':
@@ -254,6 +269,7 @@
                 // Update iframeModel based on which button was clicked
                 switch (modalNumber) {
                     case '1':
+                        mySelect5.value = 'weather';
                         iframeModel.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/139d29dc18204fa28d1b39ef672c45f5?orgId=1&refresh=1m&from=now-2d&to=now';
                         break;
                     case '2':
@@ -262,12 +278,16 @@
 
                         switch (inputText2) {
                             case 'poughkeepsie':
+                                mySelect5.value = 'p-wm';
                                 iframeModel.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/fa0d20863be848119bc21d7807f20b56?orgId=1&from=now-2d&to=now';
                                 break;
                             case 'WestPoint':
+                                mySelect5.value = 'wp-wm';
                                 iframeModel.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/f4c8ba39084a4169b9b7cc053dd4da8d?orgId=1&from=now-2d&to=now'
                                 break;
                             case 'BotanicalGarden':
+                                mySelect5.value = 'br-wm';
+
                                 iframeModel.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/9f36097dcd344550ac27631d91ad7994?orgId=1&from=now-2d&to=now';
                                 break;
                         }
@@ -277,9 +297,13 @@
 
                         switch (inputText3) {
                             case 'Ada':
+                                mySelect5.value = 'ada-wqi';
+
                                 iframeModel.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/28b52eaadf8041d490b3bca36f16101c?orgId=1&refresh=15m';
                                 break;
                             case 'Alan':
+                                mySelect5.value = 'alan-wqi';
+
                                 iframeModel.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/841327a5d5fa493b8f14d638ffe2041e?orgId=1&refresh=15m'
                                 break;
                         }
@@ -289,9 +313,13 @@
                         let inputText4 = mySelect4.value;
                         switch (inputText4) {
                             case 'Ada':
+                                mySelect5.value = 'ada-wm';
+
                                 iframeModel.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/84619475e51f410ab57a389593c0593a?orgId=1&refresh=15m';
                                 break;
                             case 'Alan':
+                                mySelect5.value = 'alan-wm';
+
                                 iframeModel.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/35f205ad7f9d458e949406a5612d9f04?orgId=1&refresh=15m'
                                 break;
                         }
@@ -316,8 +344,41 @@
                 document.getElementById("myModal").style.display = "none";
             }
         }
+
+
+
+        mySelect5.onchange = (event) => {
+            let inputText = event.target.value;
+
+            switch (inputText) {
+                case 'weather':
+                    iframeModel.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/139d29dc18204fa28d1b39ef672c45f5?orgId=1&refresh=1m&from=now-2d&to=now';
+                case 'ada-wqi':
+                    iframeModel.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/28b52eaadf8041d490b3bca36f16101c?orgId=1&refresh=15m';
+                    break;
+                case 'alan-wqi':
+                    iframeModel.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/841327a5d5fa493b8f14d638ffe2041e?orgId=1&refresh=15m'
+                    break;
+                case 'ada-wm':
+                    iframeModel.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/84619475e51f410ab57a389593c0593a?orgId=1&refresh=15m';
+                    break;
+                case 'alan-wm':
+                    iframeModel.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/35f205ad7f9d458e949406a5612d9f04?orgId=1&refresh=15m'
+                    break;
+                case 'p-wm':
+                    iframeModel.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/fa0d20863be848119bc21d7807f20b56?orgId=1&from=now-2d&to=now';
+                    break;
+                case 'wp-wm':
+                    iframeModel.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/f4c8ba39084a4169b9b7cc053dd4da8d?orgId=1&from=now-2d&to=now'
+                    break;
+                case 'br-wm':
+                    iframeModel.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/9f36097dcd344550ac27631d91ad7994?orgId=1&from=now-2d&to=now';
+                    break;
+            }
+        }
     </script>
 
 </body>
+
 
 </html>
