@@ -37,7 +37,7 @@
 
         iframe {
             width: 100%;
-            height: 100%;
+            height: 95%;
             border: none;
             transform-origin: 0 0;
             /* Keep the scaling anchored at the top-left corner */
@@ -89,7 +89,8 @@
             /* 15% from the top and centered */
             padding: 20px;
             border: 1px solid #888;
-            width: 80%;
+            width: 95%;
+            height: 95%;
             /* Could be more or less, depending on screen size */
         }
 
@@ -107,14 +108,10 @@
             text-decoration: none;
             cursor: pointer;
         }
-
-
-html > html { zoom: 0.75; -moz-transform: scale(0.75); -moz-transform-origin: 0 0; }
-
     </style>
 </head>
 
-<body class="zoom">
+<body >
 
 
     <div class="iframe-container">
@@ -136,7 +133,7 @@ html > html { zoom: 0.75; -moz-transform: scale(0.75); -moz-transform-origin: 0 
             src="https://colabprod01.pace.edu/grafana/public-dashboards/139d29dc18204fa28d1b39ef672c45f5?orgId=1&refresh=1m&from=now-2d&to=now"
             title="Iframe 1"></iframe>
         <div>
-            
+
             <label for="location">Choose a location:</label>
 
             <select name="location" id="location-select">
@@ -149,18 +146,38 @@ html > html { zoom: 0.75; -moz-transform: scale(0.75); -moz-transform-origin: 0 
                 src="https://colabprod01.pace.edu/grafana/public-dashboards/fa0d20863be848119bc21d7807f20b56?orgId=1&from=now-2d&to=now"
                 title="Iframe 2"></iframe>
         </div>
-        <iframe id="iframe3"
-            src="https://colabprod01.pace.edu/grafana/public-dashboards/28b52eaadf8041d490b3bca36f16101c?orgId=1&refresh=15m"
-            title="Iframe 3"></iframe>
-        <iframe id="iframe4"
-            src="https://colabprod01.pace.edu/grafana/public-dashboards/84619475e51f410ab57a389593c0593a?orgId=1&refresh=15m"
-            title="Iframe 4"></iframe>
+        <div>
+            <label for="sondWQI">Choose a sond:</label>
+
+            <select name="sondWQI" id="sondWQI">
+                <option value="Ada">Ada</option>
+                <option value="Alan">Alan</option>
+            </select>
+
+            <iframe id="iframe3"
+                src="https://colabprod01.pace.edu/grafana/public-dashboards/28b52eaadf8041d490b3bca36f16101c?orgId=1&refresh=15m"
+                title="Iframe 3"></iframe>
+        </div>
+        <div>
+            <label for="sondWM">Choose a sond:</label>
+
+            <select name="sondWM" id="sondWM">
+                <option value="Ada">Ada</option>
+                <option value="Alan">Alan</option>
+            </select>
+
+            <button id="myBtn">Click</button>
+
+            <iframe id="iframe4"
+                src="https://colabprod01.pace.edu/grafana/public-dashboards/84619475e51f410ab57a389593c0593a?orgId=1&refresh=15m"
+                title="Iframe 4"></iframe>
+        </div>
     </div>
 
     <script>
-        let mySelect = document.getElementById('location-select');
+        let mySelect2 = document.getElementById('location-select');
         let iframe2 = document.getElementById('iframe2');
-        mySelect.onchange = (event) => {
+        mySelect2.onchange = (event) => {
             let inputText = event.target.value;
 
             switch (inputText) {
@@ -174,8 +191,41 @@ html > html { zoom: 0.75; -moz-transform: scale(0.75); -moz-transform-origin: 0 
                     iframe2.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/9f36097dcd344550ac27631d91ad7994?orgId=1&from=now-2d&to=now';
                     break;
             }
-            console.log(inputText);
         }
+
+        let mySelect3 = document.getElementById('sondWQI');
+        let iframe3 = document.getElementById('iframe3');
+        mySelect3.onchange = (event) => {
+            let inputText = event.target.value;
+
+            switch (inputText) {
+                case 'Ada':
+                iframe3.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/28b52eaadf8041d490b3bca36f16101c?orgId=1&refresh=15m';
+                    break;
+                case 'Alan':
+                iframe3.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/841327a5d5fa493b8f14d638ffe2041e?orgId=1&refresh=15m'
+                    break;
+            }
+        }
+
+        let mySelect4 = document.getElementById('sondWM');
+        let iframe4 = document.getElementById('iframe4');
+        mySelect4.onchange = (event) => {
+            console.log("fired")
+            let inputText = event.target.value;
+
+            switch (inputText) {
+                case 'Ada':
+                iframe4.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/84619475e51f410ab57a389593c0593a?orgId=1&refresh=15m';
+                    break;
+                case 'Alan':
+                iframe4.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/35f205ad7f9d458e949406a5612d9f04?orgId=1&refresh=15m'
+                    break;
+            }
+        }
+
+
+
 
         // Get the modal
         var modal = document.getElementById("myModal");
