@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Data Analysis System</title>
+  <script src="plotly-3.0.1.min.js" charset="utf-8"></script>
+</head>
+
+<body>
+  <h1>Hudson River Data</h1>
+
+  <label for="siteSelect"><strong>Choose Site:</strong></label>
+  <select id="siteSelect">
+    <!-- Site options will be inserted here -->
+  </select>
+
+  <br><br>
+
+  <label for="parameterSelect"><strong>Choose Parameter:</strong></label>
+  <select id="parameterSelect"></select>
+
+  <div id="plot"></div>
+
+  <script type="text/javascript">
+    const siteCodes = [
+      '01302020', '01376269', '01372043', '0135980207',
+      '01359165', '01374019', '01376520', '01376515',
+      '04236000'
+    ];
+
+    const siteSelect = document.getElementById('siteSelect');
+    const parameterSelect = document.getElementById('parameterSelect');
+    let allData = [];
+
+    // Populate site dropdown
+    siteCodes.forEach(code => {
+      const opt = document.createElement('option');
+      opt.value = code;
+      opt.textContent = code;
+      siteSelect.appendChild(opt);
+    });
+
+    function fetchData(siteCode) {
+      fetch(`https://waterservices.usgs.gov/nwis/iv/?site=${siteCode}&format=json&period=P30D`)
+        .then(response => {
+          if (!response.ok) throw new Error("Network response was not ok");
+          return response.json();
+        })
+        .then(data => {
+          const timeSeries = data.value.timeSeries;
+
+          allData = timeSeries.map(ts => {
+            const unit = ts.variable.unit.unitCode;
+            const variableName = ts.variable.variableName;
+            const variable_code = ts.variable.variableCode.map(vc => vc.value).join(', ');
+            let sensorData = [];
+            for (const value of ts.values) {
+              if (value.value.length > 0) {
+                sensorData = value.value;
+              }
+            }
+            return {
+              unit,
+              variableName,
+              variable_code,
+              sensorData
+            };
+          });
+
+          // Populate parameter dropdown
+          parameterSelect.innerHTML = '';
+          allData.forEach((d, idx) => {
+            const opt = document.createElement('option');
+            opt.value = idx;
+            opt.textContent = `${d.variable_code} (${d.unit}) - ${d.variableName.substring(0, d.variableName.indexOf(','))}`;
+            parameterSelect.appendChild(opt);
+          });
+
+          // Plot first one
+          plotDataByIndex(0);
+        })
+        .catch(error => {
+          console.error("Fetch error:", error);
+          parameterSelect.innerHTML = '<option disabled>No data</option>';
+          Plotly.newPlot('plot', []);
+        });
+    }
+
+    function plotDataByIndex(index) {
+      const selected = allData[index];
+      if (!selected || !selected.sensorData) return;
+
+      const x = selected.sensorData.map(dp => dp.dateTime);
+      const y = selected.sensorData.map(dp => parseFloat(dp.value));
+
+      const plotData = [{
+        x,
+        y,
+        mode: 'lines',
+        type: 'scatter',
+        name: selected.variableName,
+      }];
+
+      Plotly.newPlot('plot', plotData);
+    }
+
+    // Handle changes
+    siteSelect.addEventListener('change', () => {
+      fetchData(siteSelect.value);
+    });
+
+    parameterSelect.addEventListener('change', () => {
+      const index = parseInt(parameterSelect.value);
+      plotDataByIndex(index);
+    });
+
+    // Initial load
+    fetchData(siteSelect.value);
+  </script>
+</body>
+
+</html>
