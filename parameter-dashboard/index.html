@@ -2,123 +2,135 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Data Analysis System</title>
-  <script src="plotly-3.0.1.min.js" charset="utf-8"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hudson River Data</title>
+    <script src="https://cdn.plot.ly/plotly-3.0.1.min.js"></script>
 </head>
 
 <body>
-  <h1>Hudson River Data</h1>
+    <h1>Hudson River Data</h1>
 
-  <label for="siteSelect"><strong>Choose Site:</strong></label>
-  <select id="siteSelect">
-    <!-- Site options will be inserted here -->
-  </select>
+    <label for="siteSelect"><strong>Choose Site:</strong></label>
+    <select id="siteSelect"></select>
 
-  <br><br>
+    <div id="plotsContainer"></div>
+    <div id="combinedPlot" style="margin-top: 40px;"></div>
 
-  <label for="parameterSelect"><strong>Choose Parameter:</strong></label>
-  <select id="parameterSelect"></select>
+    <script type="text/javascript">
+        const siteCodes = [
+            '01302020', '01376269', '01372043', '0135980207',
+            '01359165', '01374019', '01376520', '01376515',
+            '04236000', '03011020', '04220045', '0422016550', '04219915', '0422018610', '04220223', '0422026250', '04231600', '04232050', '0423205010', '04236000', '04253296', '04295000', '04274185', '04294413'
+        ];
 
-  <div id="plot"></div>
+        const siteSelect = document.getElementById('siteSelect');
+        const plotsContainer = document.getElementById('plotsContainer');
+        const combinedPlot = document.getElementById('combinedPlot');
+        let allData = [];
 
-  <script type="text/javascript">
-    const siteCodes = [
-      '01302020', '01376269', '01372043', '0135980207',
-      '01359165', '01374019', '01376520', '01376515',
-      '04236000'
-    ];
-
-    const siteSelect = document.getElementById('siteSelect');
-    const parameterSelect = document.getElementById('parameterSelect');
-    let allData = [];
-
-    // Populate site dropdown
-    siteCodes.forEach(code => {
-      const opt = document.createElement('option');
-      opt.value = code;
-      opt.textContent = code;
-      siteSelect.appendChild(opt);
-    });
-
-    function fetchData(siteCode) {
-      fetch(`https://waterservices.usgs.gov/nwis/iv/?site=${siteCode}&format=json&period=P30D`)
-        .then(response => {
-          if (!response.ok) throw new Error("Network response was not ok");
-          return response.json();
-        })
-        .then(data => {
-          const timeSeries = data.value.timeSeries;
-
-          allData = timeSeries.map(ts => {
-            const unit = ts.variable.unit.unitCode;
-            const variableName = ts.variable.variableName;
-            const variable_code = ts.variable.variableCode.map(vc => vc.value).join(', ');
-            let sensorData = [];
-            for (const value of ts.values) {
-              if (value.value.length > 0) {
-                sensorData = value.value;
-              }
-            }
-            return {
-              unit,
-              variableName,
-              variable_code,
-              sensorData
-            };
-          });
-
-          // Populate parameter dropdown
-          parameterSelect.innerHTML = '';
-          allData.forEach((d, idx) => {
+        // Populate site dropdown
+        siteCodes.forEach(code => {
             const opt = document.createElement('option');
-            opt.value = idx;
-            opt.textContent = `${d.variable_code} (${d.unit}) - ${d.variableName.substring(0, d.variableName.indexOf(','))}`;
-            parameterSelect.appendChild(opt);
-          });
-
-          // Plot first one
-          plotDataByIndex(0);
-        })
-        .catch(error => {
-          console.error("Fetch error:", error);
-          parameterSelect.innerHTML = '<option disabled>No data</option>';
-          Plotly.newPlot('plot', []);
+            opt.value = code;
+            opt.textContent = code;
+            siteSelect.appendChild(opt);
         });
-    }
 
-    function plotDataByIndex(index) {
-      const selected = allData[index];
-      if (!selected || !selected.sensorData) return;
+        function fetchData(siteCode) {
+            fetch(`https://waterservices.usgs.gov/nwis/iv/?site=${siteCode}&format=json&period=P30D`)
+                .then(response => {
+                    if (!response.ok) throw new Error("Network response was not ok");
+                    return response.json();
+                })
+                .then(data => {
+                    const timeSeries = data.value.timeSeries;
 
-      const x = selected.sensorData.map(dp => dp.dateTime);
-      const y = selected.sensorData.map(dp => parseFloat(dp.value));
+                    allData = timeSeries.map(ts => {
+                        const unit = ts.variable.unit.unitCode;
+                        const variableName = ts.variable.variableName;
+                        const variable_code = ts.variable.variableCode.map(vc => vc.value).join(', ');
+                        let sensorData = [];
+                        for (const value of ts.values) {
+                            if (value.value.length > 0) {
+                                sensorData = value.value;
+                            }
+                        }
+                        return {
+                            unit,
+                            variableName,
+                            variable_code,
+                            sensorData
+                        };
+                    });
 
-      const plotData = [{
-        x,
-        y,
-        mode: 'lines',
-        type: 'scatter',
-        name: selected.variableName,
-      }];
+                    // Clear previous plots
+                    plotsContainer.innerHTML = '';
+                    combinedPlot.innerHTML = '';
 
-      Plotly.newPlot('plot', plotData);
-    }
+                    // Plot individual plots
+                    // Plot individual plots
+                    allData.forEach((dataObj, idx) => {
+                        const div = document.createElement('div');
+                        div.id = `plot${idx}`;
+                        div.style.marginBottom = '40px';
+                        plotsContainer.appendChild(div);
 
-    // Handle changes
-    siteSelect.addEventListener('change', () => {
-      fetchData(siteSelect.value);
-    });
+                        const x = dataObj.sensorData.map(dp => dp.dateTime);
+                        const y = dataObj.sensorData.map(dp => parseFloat(dp.value));
 
-    parameterSelect.addEventListener('change', () => {
-      const index = parseInt(parameterSelect.value);
-      plotDataByIndex(index);
-    });
+                        const shortName = dataObj.variableName.split(',')[0]; // Use readable part of name
+                        const titleText = `${shortName} (${dataObj.unit}) [${dataObj.variable_code}]`;
 
-    // Initial load
-    fetchData(siteSelect.value);
-  </script>
+                        Plotly.newPlot(div.id, [{
+                            x,
+                            y,
+                            mode: 'lines',
+                            type: 'scatter',
+                            name: shortName
+                        }], {
+                            title: { text: titleText, font: { size: 18 } },
+                            xaxis: { title: 'Date/Time' },
+                            yaxis: { title: `${shortName} (${dataObj.unit})` }
+                        });
+                    });
+
+
+                    // Plot combined normalized graph
+                    const combinedTraces = allData.map(dataObj => {
+                        const x = dataObj.sensorData.map(dp => dp.dateTime);
+                        const yRaw = dataObj.sensorData.map(dp => parseFloat(dp.value));
+                        const minY = Math.min(...yRaw);
+                        const maxY = Math.max(...yRaw);
+                        const y = yRaw.map(val => (val - minY) / (maxY - minY || 1)); // Avoid div by zero
+                        return {
+                            x,
+                            y,
+                            mode: 'lines',
+                            type: 'scatter',
+                            name: dataObj.variableName.substring(0, dataObj.variableName.indexOf(',') < 30 ? dataObj.variableName.indexOf(',') : 30), // Shorten name for legend 
+                        };
+                    });
+
+                    Plotly.newPlot(combinedPlot, combinedTraces, {
+                        title: 'Normalized Combined Plot of All Parameters',
+                        yaxis: { title: 'Normalized Value (0-1)' }
+                    });
+                })
+                .catch(error => {
+                    console.error("Fetch error:", error);
+                    plotsContainer.innerHTML = '<p>Error loading data.</p>';
+                });
+        }
+
+        // Handle site change
+        siteSelect.addEventListener('change', () => {
+            fetchData(siteSelect.value);
+        });
+
+        // Initial load
+        fetchData(siteSelect.value = siteCodes[0]);
+    </script>
 </body>
 
 </html>
