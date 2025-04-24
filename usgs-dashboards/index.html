@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Grafana dashboard gallery</title>
+    <link rel="icon" type="image/x-icon" href="./favicon.ico" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+    <meta name="description" content="Welcome to Blue CoLab!" />
+    <meta name="author" content="Blue CoLab" />
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            transform-origin: 0 0;
+        }
+
+        label,
+        select,
+        option {
+            font-size: 15pt !important;
+            color: #ababb9;
+        }
+
+        select,
+        option {
+            background-color: #181b1f;
+        }
+
+        div {
+            background-color: #111217;
+        }
+
+        .iframe-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding-left: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="iframe-container">
+        <div class="controls">
+            <label for="location-select">Choose a location:</label>
+            <select name="location-select" id="location-select">
+                <option value="Pier25">Pier 25</option>
+                <option value="Pier84">Pier 84</option>
+                <option value="Piermont">Piermont</option>
+                <option value="WestPoint">West Point</option>
+                <option value="poughkeepsie">Poughkeepsie</option>
+                <option value="Schodack">Schodack</option>
+                <option value="Albany">Albany</option>
+
+                <option value="BotanicalGarden">Botanical Garden</option>
+            </select>
+        </div>
+        <iframe id="iframe2"
+            src="https://colabprod01.pace.edu/grafana/public-dashboards/42fc4d25035b449c81f3d8ecb3f08e83?orgId=1&from=now-2d&to=now&refresh=15m"
+            title="Iframe 2"></iframe>
+    </div>
+
+    <script>
+        const mySelect2 = document.getElementById('location-select');
+        const iframe2 = document.getElementById('iframe2');
+
+        mySelect2.onchange = (event) => {
+            const value = event.target.value;
+            switch (value) {
+                case 'poughkeepsie':
+                    iframe2.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/fa0d20863be848119bc21d7807f20b56?orgId=1&from=now-2d&to=now&refresh=15m';
+                    break;
+                case 'WestPoint':
+                    iframe2.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/f4c8ba39084a4169b9b7cc053dd4da8d?orgId=1&from=now-2d&to=now&refresh=15m';
+                    break;
+                case 'BotanicalGarden':
+                    iframe2.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/9f36097dcd344550ac27631d91ad7994?orgId=1&from=now-2d&to=now&refresh=15m';
+                    break;
+                case 'Pier25':
+                    iframe2.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/42fc4d25035b449c81f3d8ecb3f08e83?orgId=1&from=now-2d&to=now&refresh=15m';
+                    break;
+                case 'Pier84':
+                    iframe2.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/0a2e53019fad4455bb4e5d1109d00918?orgId=1&from=now-2d&to=now&refresh=15m';
+                    break;
+                case 'Piermont':
+                    iframe2.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/61951a2f584f49f690969a23c349f43e?orgId=1&from=now-2d&to=now&refresh=15m';
+                    break;
+                case 'Schodack': 
+                    iframe2.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/fe42f9191cf84951be4eb2e96b046a1e?orgId=1&from=now-2d&to=now&refresh=15m';
+                    break;
+                case 'Albany': 
+                    iframe2.src = 'https://colabprod01.pace.edu/grafana/public-dashboards/1ca141bf9a394c86b9103c1812ec9b28?orgId=1&from=now-2d&to=now&refresh=15m';
+                    break;
+            }
+        };
+    </script>
+</body>
+
+</html>
