@@ -5,10 +5,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Purple Air Sensor Data</title>
-    <script src='https://www.purpleair.com/pa.widget.js?key=2VWKXM0YID1UR0IA&module=US_EPA_AQI&conversion=C5&average=10&layer=US_EPA_AQI&container=PurpleAirWidget_296205_module_US_EPA_AQI_conversion_C5_average_10_layer_US_EPA_AQI'></script>
+    <script
+        src='https://www.purpleair.com/pa.widget.js?key=2VWKXM0YID1UR0IA&module=US_EPA_AQI&conversion=C5&average=10&layer=US_EPA_AQI&container=PurpleAirWidget_296205_module_US_EPA_AQI_conversion_C5_average_10_layer_US_EPA_AQI'></script>
 </head>
 
 <body>
-        <div id='PurpleAirWidget_296205_module_US_EPA_AQI_conversion_C5_average_10_layer_US_EPA_AQI'>Loading PurpleAir Widget...</div>
+    <div id='PurpleAirWidget_296205_module_US_EPA_AQI_conversion_C5_average_10_layer_US_EPA_AQI'>Loading PurpleAir
+        Widget...</div>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const isDark = params.get('isDark');
+        if (isDark === 'true') {
+            document.body.style.backgroundColor = '#1a202c';
+            document.body.style.color = '#fff';
+        } else {
+            document.body.style.backgroundColor = '#fff';
+            document.body.style.color = '#000';
+        }
+    </script>
 </body>
+
 </html>
