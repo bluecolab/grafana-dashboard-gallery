@@ -16,3 +16,4 @@ Please zoom out to about 33% to have proper functionality.
 - Water Monitor Schodack Landing (42.4996111, -73.7768056) - https://colabprod01.pace.edu/grafana/public-dashboards/fe42f9191cf84951be4eb2e96b046a1e?orgId=1&from=now-2d&to=now&refresh=15m
 - Water Monitor Albany (42.61952778, -73.7589167) - https://colabprod01.pace.edu/grafana/public-dashboards/1ca141bf9a394c86b9103c1812ec9b28?orgId=1&from=now-2d&to=now&refresh=15m
 - Water Monitor Botanical Garden/Bronx River (40.86230556, -73.8743888) - https://colabprod01.pace.edu/grafana/public-dashboards/9f36097dcd344550ac27631d91ad7994?orgId=1&from=now-2d&to=now&refresh=15m
+- Purple Air Stations: https://bluecolab.github.io/grafana-dashboard-gallery/purple-air-1/ (Softball Field), https://bluecolab.github.io/grafana-dashboard-gallery/purple-air-2 (Nature Center)
