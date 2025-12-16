@@ -1,8 +1,8 @@
 # Grafana Dashboard Gallery
 
-Please zoom out to about 33% to have proper functionality.
+Please zoom out to about 33% to have proper functionality to see the webview.
 
-## List of all dashboards
+## List of all dashboards, work without Zoom
 - Weather - https://colabprod01.pace.edu/grafana/public-dashboards/139d29dc18204fa28d1b39ef672c45f5?orgId=1&from=now-2d&to=now&refresh=15m
 - Ada WQI - https://colabprod01.pace.edu/grafana/public-dashboards/28b52eaadf8041d490b3bca36f16101c?orgId=1&from=now-2d&to=now&refresh=15m
 - Alan WQI - https://colabprod01.pace.edu/grafana/public-dashboards/841327a5d5fa493b8f14d638ffe2041e?orgId=1&from=now-2d&to=now&refresh=15m
